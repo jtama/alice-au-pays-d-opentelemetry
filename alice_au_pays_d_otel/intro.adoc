@@ -1,0 +1,102 @@
+[%notitle]
+== Intro
+
+image::alice01.otel.jpeg[background, size=fill]
+
+[.notes]
+--
+Qui a déjà entendu parler d'opentelemetry ?
+Qui a déjà fait plus que ça ?
+
+Je ne rentrerai pas dans les détails, cette présentation parle de la mise en oeuvre.
+--
+
+[.columns]
+[%notitle]
+=== Intro
+
+[.column.is-one-fifth]
+--
+image::opentelemetry-logo-nav.png[]
+--
+
+[.column.has-text-left]
+--
+[%step]
+.Opentelemetry c'est :
+* Un standard de format
+* Une convention de désignation d'une ressource
+* Des implémentations d'instrumentation de code disponible dans plusieurs language
+* Un collecteur magique
+
+[%step.important-text]
+Opentelemetry n'est pas un back-end de collect (comme Prometheus ou Jaegger)
+--
+
+[%notitle.columns.is-vcentered]
+=== Présentation
+
+[.column.is-one-third]
+--
+image::présentation.jpeg[width=500]
+--
+
+[.column.has-text-left]
+--
+
+[.important-text]
+Jérôme
+
+[.important-text]
+Tech Lead / Architecte
+
+[.important-text.vertical-align-middle]
+image:logo_onepoint.jpeg[width=50]
+onepoint
+
+[.important-text]
+icon:github[] @jtama
+
+--
+
+[.notes]
+--
+Compagnon du devoir
+
+J'ai rencontré opentelemetry il y a 2/3 ans, au moment de la fusion OpenTracing/OpenCensus.
+
+A l'époque je n'étais pas certain de son futur, et comme tout bon fashion driven programer j'ai attendu avant de regarder plus loin.
+
+Je n'avais pas pas poussé très loin et lors du conférence à Devoxx cette année j'en ai pris plein les yeux.
+--
+
+=== !
+
+image::homepage-hero-as-background.jpeg[background, size=fill]
+
+[.notes]
+--
+J'ai compris que j'avais devant moi l'allpha et l'omega, la magie à l'état brut, le futur de tout, la réponse universel, donc tout naturellement...
+--
+
+=== !
+
+image::follow_the_rabbit.png[follow the white rabit, size=contain]
+
+[.notes]
+--
+C'est comme ça que j'ai choisis la pilule rouge : je reste au Pays des Merveilles et on descend avec le lapin blanc au fond du gouffre.
+--
+
+=== !
+
+image::Write-User-Manuals-Step-15.jpg[reading user manual, size=fill]
+
+[.notes]
+--
+Une dernière question : Dans la vie il y a deux types de personnes :
+Ceux qui n'ouvre le manuel qu'en cas de problème et ceux qui lise tout le manuel avant d'allumer un nouvel appareil.
+
+Qui lit le manuel ?
+Qui ne le lit pas ?
+--

@@ -1,0 +1,34 @@
+= README
+
+=== Plan
+Présentation succinte d'opentelemetry 3 minutes
+Contexte et contrainte de la mise en place (Application Quarkus, déploiement dans un OKD, on ne touche pas au code) 2 minutes
+Déploiement d'un collecteur (en mode Deployment) 1 minutes
+Mise en place de la collecte de métriques 5 minutes
+Mise en place de la collecte de trace 5 minutes
+Refacto en passant par l'opérateur et mise en place de sidecar 5 minutes
+Mise en place de la collecte de log 5 minutes
+Refacto et mise en place d'un daemonset 5 minutes
+Ajout d'attribut pour la autoriser la correlation 5 minutes
+Refacto encore pour utiliser la sémantique Opentelemetry 5 minutes
+Conclusion 3 minutes
+
+=== Génération
+
+Depuis le répertoire racine du projet :
+
+[source,bash]
+----
+docker container run --rm -it -v $(pwd):/documents  cds-bdx-docker.repo-nf.groupeonepoint.com/gop-asciidoctor:1.17 gop-reveal index.adoc
+----
+
+=== Accéder au slides
+
+Soit via un debug javascript d'intellij, soit en lançant la commande suivante
+
+[source,bash]
+----
+docker run --rm -d -p 8080:80 -v $(pwd):/usr/share/nginx/html nginx
+----
+
+

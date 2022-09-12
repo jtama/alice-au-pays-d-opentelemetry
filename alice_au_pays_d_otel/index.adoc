@@ -1,0 +1,19 @@
+= Alice au pays d'Opentelemetry
+:docinfo: private
+:toc-title:
+:toc: macro
+:toclevels: 1
+:source-highlighter: highlight.js
+:autofit-option:
+:icons: font
+:revealjs_slideNumber: true
+:revealjs_theme: gop
+:revealjs_history: true
+:revealjs_pdfseparatefragments: false
+:revealjs_showSlideNumber: speaker
+:customcss: css/meetup.css
+:imagesdir: images
+
+include::intro.adoc[]
+include::context.adoc[]
+include::deploiement-context.adoc[]

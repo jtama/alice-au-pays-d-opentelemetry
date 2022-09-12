@@ -1,0 +1,18 @@
+.vertical-align-middle > p {
+    vertical-align: middle;
+}
+
+.vertical-align-middle > p > span {
+    vertical-align: middle;
+    margin: 0;
+}
+
+.vertical-align-middle > p > span > img{
+    vertical-align: middle;
+    margin: 0;
+}
+
+.important-text > p {
+    font-size: xxx-large;
+    color: #012d3f;
+}

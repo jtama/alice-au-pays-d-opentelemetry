@@ -1,0 +1,37 @@
+[.columns]
+[%notitle]
+== Context
+
+[.column]
+--
+[%step]
+"He Jérôme, tu peux mettre en place l'observabilité sur mon projet ?"
+-- Chef de projet X, Un matin de Mai 2022
+--
+
+[.column]
+--
+[%step]
+* Kubernetes
+* Dev Java/Quarkus
+* Front Angular/Nginx
+* Elastic
+* Kafka
+* Postgres
+* ...
+--
+
+[.notes]
+--
+Un jour on est venu me voir et on m'a dit:
+
+Alors j'ai foncé et direct je me suis dit "c'est ton moment fonce, opentelemetry t'ouvre ses bras !"
+--
+
+=== !
+
+[%step]
+image::Otel_Collector.svg[]
+
+
+

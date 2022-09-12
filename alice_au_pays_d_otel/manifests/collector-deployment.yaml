@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: otel-collector
+  labels:
+    app: opentelemetry
+    component: otel-collector
+spec:
+  selector:
+    matchLabels:
+      app: opentelemetry
+      component: otel-collector
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: opentelemetry
+        component: otel-collector
+    spec:
+      containers:
+        - command:
+            - "/otelcol"
+            - "--config=/conf/otel-collector-config.yaml"
+          image: otel/opentelemetry-collector:0.43.0
+          name: otel-collector
+          resources:
+            limits:
+              cpu: "1"
+              memory: 2Gi
+            requests:
+              cpu: 200m
+              memory: 400Mi
+          ports:
+            - containerPort: 55679
+            - containerPort: 4317
+            - containerPort: 14250
+            - containerPort: 14268
+            - containerPort: 9411
+            - containerPort: 8888
+          volumeMounts:
+            - name: otel-collector-config-vol
+              mountPath: /conf
+      volumes:
+        - configMap:
+            name: otel-collector-conf
+            items:
+              - key: otel-collector-config
+                path: otel-collector-config.yaml
+          name: otel-collector-config-vol
