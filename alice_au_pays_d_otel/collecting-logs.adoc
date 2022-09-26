@@ -1,0 +1,130 @@
+== !
+
+image::logs.jpg[background, size=fill]
+
+
+[.notes]
+--
+J'ai tout essayer pour réutiliser mon sidecar, mais je n'ai pas réussi.
+
+Il existe énormément de receiver dédié au log, mais je partais de zéro, en terme d'outillage de mon cluster.
+
+J'en suis donc rendu à être obligé de lire les fichiers de logs directement sur les filesystem des nœuds.
+
+Et pour cela..
+--
+
+=== Le Daemonset
+
+[WARNING]
+====
+Attention, pour déployer un Daemonset utilisable, vous devez disposer de droits élévés sur le cluster
+====
+
+[.notes]
+--
+C'est un type de ressource K8S qui garantie d'avoir au moins une instance par noeud. Et c'est bien ce qu'il me faut
+puisque je ne sais pas à l'avance sur quel noeud mes applications vont être déployée.
+
+Oui parce que vous allez devoir monter le filesystem de l'hôte dans vos conteneurs, et ça si vous êtes dans un cluster un peu bien gouverné, c'est pas possible par défaut.
+
+Je vous épargne ce bout de yaml, mais encore une fois, il est dans le dépot.
+--
+
+=== !
+
+plantuml::diag/k8s_4.puml[format=svg]
+
+[.notes]
+--
+Je ne vous refait pas le coup, il faut déployer un backend de collecte de log...
+--
+
+=== !
+
+"Mais pourquoi tu ne passes pas par ton collecteur pour enrichir tes logs ?"
+-- Question judicieuse, 2 décembre 2022
+
+=== !
+
+image::cheshire-cat-alice-in-wonderland.gif[]
+
+[.notes]
+--
+Et puis de toute façon K8SAttribute se base sur l'ip entrante pour déterminer le pod qui lui parle. En l'occurence ça serait systématiquement celle du daemonset.
+
+Eh bien parce que loki crée des streams de logs en fonction des attributs.
+Le nombre de stream doit être limité, et on ne peux donc pas par exemple utiliser le traceID, ou un pod UID, il vaut mieux laisser ces valeurs où elles sont et faire des requêtes dédiées.
+
+Aujourd'hui je ne suis pas totalement statisfait de la situation, mais je vis avec, à refacto plus tard!
+
+Alors là on va rentrer dans le dur : Comment fait-on pour parser des logs... Il existe plein de petits exemples mais jamais un suffisamment conséquent....
+--
+
+=== !
+
+[source,yaml, highlight='3..7|11|12..18|57..61|70..81|124..126|128..132']
+----
+include::sources/filelogreceiver.yaml[]
+----
+
+[.notes]
+--
+C'est là que ça c'est compliqué (pour moi). Non pas sur la compréhension mais faire du dev en yaml...
+
+La configuration que je vous montre est un version édulcorée de la réalité.
+
+Je vous conseille d'utiliser un conteneur de tests.
+
+On ne va pas tout regarder juste quelques trics :
+
+On définit ensuite les operators, ils s'exécutent tous séquentiellement sauf indication contraire
+
+Le routeur est comme un switch pour éviter l'exécution séquentielle.
+
+recombine: permet de regrouper plusieurs ligne de log en un seul record (par exemple pour une stacktrace), en se basant encore sur une regex (si un ligne commence par un chiffre, c'est un nouveau record)
+
+regexparser : Il permet d'extraire des attributs en fonction de regexp (format golang) - Les ressources, les ressources, les ressources...Encore un operator regexp,
+On note ici la notion d'output, qui permet d'aller directement à l'opérator choisi.
+Attention ici une conf spécifique au fait de parser la severité.
+En effet d'après OTEL la sévérité est une propriété du record, pas un entrée dans ses attributs.
+
+Ici c'est ma porte de sortie... qui ne fait rien ;)
+
+Le processor transform. Il permet d'agir sur les traces, les métrics et les logs, il permet d'effectuer un certain nombre d'opération, conditionnellement ou pas. Ici pour harmoniser, on remplace les valeurs WARNING par WARN.
+
+--
+
+[.transparency]
+=== Et la corrélation ?
+
+image::everyone.png[background, size=fill]
+
+[.notes]
+--
+ C'est quand même la promesse de base !
+
+La grande unification.
+--
+
+
+[.lesson]
+=== !
+
+[.big]
+icon:skull[2x,role=red] OpenTelemetry ne fait pas tout.
+
+[.notes]
+--
+Il donne les moyens de faire. Mais il faut que l'information soit présente à la source. Il faut que les outils utilisés sachent l'exploiter.
+
+Une partie va venir de la définition commune des ressources et pour le reste,
+
+Dans mon cas il a juste fallu ajouter les trace et span id dans le logs.
+
+C'est plutôt simple (en tout cas pour la partie applicative).
+
+Pour les ajouter dans les métrics, bin là ça dépend beaucoup de la spec.
+--
+
+

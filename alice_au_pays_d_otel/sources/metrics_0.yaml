@@ -1,0 +1,32 @@
+receivers:
+  prometheus:
+    config:
+      scrape_configs:
+        - job_name: metrics-collector
+          scrape_interval: 5s
+          // Defaults to /metrics
+          metrics_path: '/q/metrics'
+          scheme: http
+          static_configs:
+            - targets: ['mon-app-1:8080']
+processors:
+  batch:
+  memory_limiter:
+    check_interval: 5s
+    limit_mib: 1500
+    spike_limit_mib: 512
+
+exporters:
+  logging:
+    loglevel: debug
+  prometheus:
+    endpoint: :9090
+    resource_to_telemetry_conversion:
+      enabled: true
+
+service:
+  pipelines:
+    metrics:
+      receivers: [prometheus]
+      processors: [batch,memory_limiter]
+      exporters: [logging, prometheus]

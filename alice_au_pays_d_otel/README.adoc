@@ -9,9 +9,12 @@ Mise en place de la collecte de trace 5 minutes
 Refacto en passant par l'opérateur et mise en place de sidecar 5 minutes
 Mise en place de la collecte de log 5 minutes
 Refacto et mise en place d'un daemonset 5 minutes
-Ajout d'attribut pour la autoriser la correlation 5 minutes
-Refacto encore pour utiliser la sémantique Opentelemetry 5 minutes
+Ajout d'attribut pour autoriser la correlation 5 minutes
+Refacto encore pour utiliser la sémantique OpenTelemetry 5 minutes
 Conclusion 3 minutes
+
+
+Mettre en couleur les nouveautés dans les diags plantuml.
 
 === Génération
 
@@ -19,16 +22,23 @@ Depuis le répertoire racine du projet :
 
 [source,bash]
 ----
-docker container run --rm -it -v $(pwd):/documents  cds-bdx-docker.repo-nf.groupeonepoint.com/gop-asciidoctor:1.17 gop-reveal index.adoc
+docker container run --rm -it -v $(pwd):/documents  cds-bdx-docker.repo-nf.groupeonepoint.com/gop-asciidoctor:1.18 gop-reveal index.adoc
 ----
 
 === Accéder au slides
 
-Soit via un debug javascript d'intellij, soit en lançant la commande suivante
-
 [source,bash]
 ----
-docker run --rm -d -p 8080:80 -v $(pwd):/usr/share/nginx/html nginx
+docker container run --rm -d -p 8080:80 -v $(pwd):/usr/share/nginx/html nginx
 ----
+
+
+Licence
+
+Changer la présentation du chef de projet et sa demande pour préciser le lien avec l'observabilité.
+
+Ajouter un screen sur les logs. Regarder la pseudonimisation.
+
+Slide conclusion.
 
 

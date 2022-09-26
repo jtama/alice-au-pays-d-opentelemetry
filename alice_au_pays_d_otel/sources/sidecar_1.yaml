@@ -1,0 +1,28 @@
+apiVersion: opentelemetry.io/v1alpha1
+kind: OpenTelemetryCollector
+metadata:
+  name: yap-otel-sidecar
+spec:
+  mode: sidecar
+  resources:
+    requests:
+      memory: 50Mi
+      cpu: 500m
+    limits:
+      memory: 100Mi
+      cpu: 500m
+  env:
+    - name: module
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: metadata.labels['app.kubernetes.io/name']
+    - name: k8s.pod.uid
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: metadata.uid
+    - name: OTEL_RESOURCE_ATTRIBUTES
+      value: "application=$(module), k8s.pod.uid=$(k8s.pod.uid)"
+  config: |
+    receivers:

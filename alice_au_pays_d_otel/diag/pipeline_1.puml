@@ -1,0 +1,26 @@
+@startuml
+!define ICONURL https://raw.githubusercontent.com/jtama/plantuml-glyphs/master
+!includeurl ICONURL/common.puml
+!includeurl ICONURL/opentelemetry/opentelemetry.puml
+!includeurl ICONURL/opentelemetry/collector.puml
+!includeurl ICONURL/opentelemetry/receiver.puml
+!includeurl ICONURL/opentelemetry/processor.puml
+!includeurl ICONURL/opentelemetry/exporter.puml
+
+
+OTLP("OTLP", "OpenTelemetry", rectangle) {
+     COLLECTOR("CL", "Collector", rectangle) {
+       RECEIVER("RECV", "Receivers")
+       PROCESSOR("PROC", "Processors")
+       RECV -> PROC
+       EXPORTER("EXP", "Exporters")
+       PROC -> EXP
+     }
+}
+
+skinparam{
+   RectangleBorderThickness<<OTEL COLLECTOR>> 2
+}
+
+
+@enduml

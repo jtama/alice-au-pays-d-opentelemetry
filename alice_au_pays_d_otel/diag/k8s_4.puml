@@ -1,0 +1,54 @@
+@startuml
+
+left to right direction
+!define ICONURL https://raw.githubusercontent.com/jtama/plantuml-glyphs/master
+!includeurl ICONURL/common.puml
+!includeurl ICONURL/opentelemetry/opentelemetry.puml
+!includeurl ICONURL/opentelemetry/collector.puml
+!includeurl ICONURL/opentelemetry/receiver.puml
+!includeurl ICONURL/opentelemetry/processor.puml
+!includeurl ICONURL/opentelemetry/exporter.puml
+!includeurl ICONURL/k8s/kubernetes.puml
+!includeurl ICONURL/k8s/pod.puml
+!includeurl ICONURL/grafana/tempo.puml
+!includeurl ICONURL/grafana/loki.puml
+!include <logos/prometheus>
+!include <logos/grafana>
+!include <kubernetes/k8s-sprites-unlabeled-25pct>
+
+
+
+KUBERNETES("K8S","Kubernetes", node) {
+    POD("POD", "App 1") {
+        COLLECTOR("SIDE_COL", "Side car")
+    }
+    POD("POD2", "App 2") {
+        COLLECTOR("SIDE_COL2", "Side car")
+    }
+    COLLECTOR("COLLECTOR", "Main collector")
+    COLLECTOR <-- SIDE_COL : Metrics and traces
+    SIDE_COL2 --> COLLECTOR : Metrics and traces
+    database "<$prometheus>\nPrometheus" as PROM
+    COLLECTOR <-up- PROM
+    rectangle "<$grafana>\nGrafana" as GRAFANA
+    TEMPO(Tempo, "Tempo")
+    PROM <-- GRAFANA
+    COLLECTOR -down-> Tempo
+    Tempo <-up- GRAFANA
+    rectangle <$ds>\nDaemonset <<new>> {
+        COLLECTOR("DS_COLLECTOR", "Collector")
+    }
+
+    LOKI(Loki, "Loki")
+    DS_COLLECTOR -[#PaleGreen]up-> Loki: <color:PaleGreen>Logs
+    Loki <-[#PaleGreen]- GRAFANA
+}
+
+skinparam{
+   RectangleBorderThickness<<OTEL COLLECTOR>> 2
+   RectangleBorderThickness<<K8S POD>> 2
+   databaseBackgroundColor<<loki>> PaleGreen
+   rectangleBackgroundColor<<new>> PaleGreen
+}
+
+@enduml

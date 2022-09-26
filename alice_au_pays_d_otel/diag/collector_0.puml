@@ -1,0 +1,18 @@
+@startuml
+!define ICONURL https://raw.githubusercontent.com/jtama/plantuml-glyphs/master
+!includeurl ICONURL/common.puml
+!includeurl ICONURL/opentelemetry/collector.puml
+!includeurl ICONURL/k8s/kubernetes.puml
+
+
+KUBERNETES("K8S","Kubernetes") {
+    COLLECTOR("COLLECTOR", "Collector", rectangle, DarkSeaGreen)
+}
+
+skinparam{
+   RectangleBorderThickness<<OTEL COLLECTOR>> 2
+   rectangleBackgroundColor<<OTEL COLLECTOR>> PaleGreen
+}
+
+
+@enduml

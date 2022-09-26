@@ -1,0 +1,44 @@
+@startuml
+left to right direction
+
+!define ICONURL https://raw.githubusercontent.com/jtama/plantuml-glyphs/master
+!includeurl ICONURL/common.puml
+!includeurl ICONURL/opentelemetry/opentelemetry.puml
+!includeurl ICONURL/opentelemetry/collector.puml
+!includeurl ICONURL/opentelemetry/receiver.puml
+!includeurl ICONURL/opentelemetry/processor.puml
+!includeurl ICONURL/opentelemetry/exporter.puml
+!includeurl ICONURL/k8s/kubernetes.puml
+!includeurl ICONURL/k8s/pod.puml
+!includeurl ICONURL/grafana/tempo.puml
+!include <logos/prometheus>
+!include <logos/grafana>
+
+
+KUBERNETES("K8S","Kubernetes", node) {
+    POD("POD", "App 1") {
+        COLLECTOR("SIDE_COL", "Side car")
+    }
+    POD("POD2", "App 2") {
+        COLLECTOR("SIDE_COL2", "Side car")
+    }
+    COLLECTOR("COLLECTOR", "Main collector")
+    COLLECTOR <-- SIDE_COL : <color:DarkSeaGreen>Metrics and traces
+    SIDE_COL2 --> COLLECTOR : <color:DarkSeaGreen>Metrics and traces
+    database "<$prometheus>\nPrometheus" as PROM
+    COLLECTOR <-up- PROM
+    rectangle "<$grafana>\nGrafana" as GRAFANA
+    TEMPO(Tempo, "Tempo")
+    PROM <-- GRAFANA
+    COLLECTOR -[#DarkSeaGreen]down-> Tempo
+    Tempo <-[#DarkSeaGreen]up- GRAFANA
+}
+
+skinparam{
+   RectangleBorderThickness<<OTEL COLLECTOR>> 2
+   databaseBackgroundColor<<tempo>> PaleGreen
+   rectangleBackgroundColor<<new>> PaleGreen
+}
+
+
+@enduml

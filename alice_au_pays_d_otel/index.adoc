@@ -1,19 +1,39 @@
-= Alice au pays d'Opentelemetry
+= Alice au pays d'OpenTelemetry
 :docinfo: private
-:toc-title:
-:toc: macro
-:toclevels: 1
 :source-highlighter: highlight.js
 :autofit-option:
 :icons: font
 :revealjs_slideNumber: true
-:revealjs_theme: gop
+:revealjs_theme: white
 :revealjs_history: true
 :revealjs_pdfseparatefragments: false
-:revealjs_showSlideNumber: speaker
+:revealjs_width: 1200
+:title-slide-background-image: title.png
+:title-slide-background-size: fill
 :customcss: css/meetup.css
 :imagesdir: images
 
-include::intro.adoc[]
+[.notes]
+--
+Bonjour ! Stressé. Ah pardon j'ai peut-être été trop observable.
+
+Merci d'être venus !
+
+Qui a déjà entendu parler d'opentelemetry ?
+Qui a déjà fait plus que ça ?
+
+Cette présentation parle de mon expèrience de mise en place d'Opentelemtry, et ce n'est certainement pas la vérité absolue.
+
+
+
+Alors on va quand même rappeler rapidement ce qu'est OTEL
+--
+
+include::introduction.adoc[]
 include::context.adoc[]
-include::deploiement-context.adoc[]
+include::collecting-metrics.adoc[]
+include::collecting-metrics-refactoring.adoc[]
+include::collecting-traces.adoc[]
+include::collecting-logs.adoc[]
+include::conclusion.adoc[]
+

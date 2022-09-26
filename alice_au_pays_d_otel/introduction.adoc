@@ -1,0 +1,71 @@
+[.columns]
+[%notitle]
+== Intro
+
+[.column.is-one-fifth]
+--
+image::opentelemetry-logo-nav.png[]
+--
+
+[.column.has-text-left]
+--
+[%step]
+.OpenTelemetry c'est :
+* Un standard de donnée
+* Une convention de désignation d'une ressource
+* Des implémentations d'instrumentation de code disponibles dans plusieurs languages.
+* Un collecteur magique
+--
+
+[.notes]
+--
+
+C'est à dire une definition concrète du modèle d'un log, d'une trace, et des métrics
+En réalité des standards qui sont pour les _traces_ et les _metrics_ stable, pour les _logs_ en draft, hum.
+
+Une convention qui couvre ce qu'est fonctionnellement la ressource et dans quel cadre elle est déployée, en cours de complétion concernant le dernier point.
+
+Instrumentation : C++, Go, Java, Javascript, Php, python, Rust, Swift....
+--
+
+[%notitle.columns.is-vcentered.transparency]
+=== Présentation
+
+image::homepage-hero-as-background.jpeg[background, size=fill]
+
+[.column.is-one-third]
+--
+image::profile_jta.jpg[width=500]
+--
+
+[.column.has-text-left]
+--
+
+[.important-text]
+Jérôme
+
+[.important-text]
+Tech Lead / Architecte
+
+[.important-text.vertical-align-middle]
+image:logo_onepoint.jpeg[width=50]
+onepoint
+
+[.important-text.vertical-align-middle]
+icon:github[] @jtama image:avatar.png[width=100]
+
+--
+
+[.notes]
+--
+Compagnon du devoir et je n'aime pas lire les manuels utilisateurs.
+
+Je travaille chez onepoint (on recrute passez nous voir sur le stand!)
+
+Il paraît que je parle fort, je vous en laisse seuls juges
+
+ça fait 2/3 ans que j'ai connu OTEL, au moment de la fusion OpenTracing/OpenCensus.
+
+Et puis j'ai vu une conf et j'en ai pris plein les yeux.
+J'ai compris que j'avais devant moi l'alpha et l'omega, la magie à l'état brut, le futur de tout, la réponse universel, donc tout naturellement...
+--

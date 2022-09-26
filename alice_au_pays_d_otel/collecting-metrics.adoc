@@ -1,0 +1,104 @@
+== !
+
+image::metrics_title.jpeg[background, size=fill]
+
+[.notes]
+--
+Metrics :
+
+J'avais la chance d'avoir sous la main des applications qui savent exporter des métriques au format prometheus
+--
+
+=== !
+
+[%step]
+--
+[source,yaml,highlight='1|2..11|12|19|20..21|22..24|29..32']
+----
+include::sources/metrics_0.yaml[]
+----
+--
+[.notes]
+--
+Je relance mon collecteur et ...
+
+Ah oui alors le receiver prometheus ne provient pas de la distribution _core_, il faut allez piocher dans le repo _contrib_. Il a donc fallu que je modifie mon déploiement pour que ça fonctionne...
+
+__Pour que cela fonctionne j'ai juste ajouté la dépendance qui va bien à l'app quarkus.__
+
+Exporter prometheus, comme on l'a dit, prometheus ne push pas, il faut donc permettre de rééxposer les metrics au format qui va bien.
+--
+
+=== !
+
+plantuml::diag/k8s_0.puml[format=svg]
+
+=== !
+
+image::1951-lapinblanc-01.jpeg[]
+
+[.notes]
+--
+Oui mais pour qui ?
+
+Comme je l'ai dit, je ne lis pas les manuels,
+
+et c'est à ce moment là que je me prend le premier mur. Il faut que je déploie une instance de prometheus,
+
+otel ne fera rien pour moi sur ce point, puisque justement il est agnostique des backend....
+
+Donc eh bin c'est parti je me déploie un prometheus, je le configure pour scrapper les données depuis mon collector, et j'en profite pour l'observer.
+
+Mise en abime.
+
+
+J'en profite pour déployer un grafana et rien du tout.
+--
+
+=== !
+
+plantuml::diag/k8s_1.puml[format=svg]
+
+[.lesson]
+=== !
+
+[.big]
+icon:skull[2x,role=red] OpenTelemetry N'EST PAS un backend de persistence.
+
+
+=== !
+
+[.notes]
+--
+Cool, on en ajoute un autre module ?
+--
+
+--
+image::metrics.png[]
+--
+
+=== !
+
+[source,yaml,highlight='10']
+----
+include::sources/metrics_1.yaml[]
+----
+
+=== !
+
+plantuml::diag/k8s_1_bis.puml[format=svg]
+
+[.notes]
+--
+Tout ce que j'ai montré jusqu'à présent c'est très bien, mais j'ai oublié les ressources en cours de route.
+
+Si on ne définit pas correctement ses ressources, on ne PEUT PAS savoir qui produit quoi....
+--
+
+[.lesson]
+=== !
+
+[.big]
+icon:skull[2x,role=red] Les ressources c'est la vie.
+
+

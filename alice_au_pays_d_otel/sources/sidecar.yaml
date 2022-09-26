@@ -1,0 +1,15 @@
+apiVersion: opentelemetry.io/v1alpha1
+kind: OpenTelemetryCollector
+metadata:
+  name: yap-otel-sidecar
+spec:
+  mode: sidecar
+  resources:
+    requests:
+      memory: 50Mi
+      cpu: 500m
+    limits:
+      memory: 100Mi
+      cpu: 500m
+  config: |
+    receivers:

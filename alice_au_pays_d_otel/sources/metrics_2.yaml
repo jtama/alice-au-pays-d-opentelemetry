@@ -1,0 +1,30 @@
+receivers:
+  prometheus:
+    config:
+      scrape_configs:
+        - job_name: mon-app
+          scrape_interval: 5s
+          metrics_path: '/q/metrics'
+          scheme: http
+          static_configs:
+            - targets: [ 'localhost:8080' ]
+              labels:
+                instance: mon-app
+processors:
+  batch:
+  memory_limiter:
+    check_interval: 5s
+    limit_mib: 1500
+    spike_limit_mib: 512
+  k8sAttributes:
+exporters:
+  otlp:
+    endpoint: main-collector
+    tls:
+      insecure: true
+service:
+  pipelines:
+    metrics:
+      receivers: [ prometheus ]
+      processors: [ k8sAttributes, batch, memory_limiter ]
+      exporters: [ otlp ]

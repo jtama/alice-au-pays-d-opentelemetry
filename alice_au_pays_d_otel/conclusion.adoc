@@ -1,0 +1,48 @@
+[.conclusion]
+== !
+
+[.notes]
+--
+
+Je n'ai pas fini mon voyage au pays d'opentelemetry et je compte bien continuer à me familiariser avec ses paysages, mais il est temps pour nous de mettre fin à se cauchemard avant que la reine ne nous coupe la tête.
+
+Les promesses tenues :
+
+Pas de vendor locking, un nombre incroyable d'intégration, qui nous permettent d'envisager de changer de producteurs et de backend sereinement.
+
+Attention: Ce n'est pas sec
+Personne ne songerait à se lancer dans l'utilisation de K8S sans avoir jamais y été introduit, OTLP c'est pareil en pire parce que la documentation est répartie un peu partout
+
+Ma bible, mon inspiration, le dépot github, ouvert à la contribution !
+
+Veni, vedi, pas vici
+
+--
+
+image::conclusion.jpg[background, size=contain]
+
+
+[.transparency]
+=== !
+
+image::alice01.otel.jpeg[background, size=fill]
+
+Merci !
+
+https://github.com/open-telemetry/opentelemetry-collector-contrib
+
+https://jtama.github.io/alice-au-pays-d-opentelemetry
+
+https://github.com/jtama/alice-au-pays-d-opentelemetry
+
+[.important-text.vertical-align-middle]
+image:qr.png[width=200]
+
+[.small]
+Credits: animationscreencaps.com, opentelemetry.io
+
+[.notes]
+--
+J'espère vous avoir éviter quelques pièges, ou en tout vous faciliter le chemine
+Si on a le temps des questions ?
+--

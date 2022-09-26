@@ -1,0 +1,28 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+      http:
+
+processors:
+  batch:
+  memory_limiter:
+    check_interval: 5s
+    limit_mib: 1500
+    spike_limit_mib: 512
+
+exporters:
+  logging:
+    loglevel: debug
+  prometheus:
+    endpoint: prometheus:9090
+    resource_to_telemetry_conversion:
+      enabled: true
+
+service:
+  pipelines:
+    metrics:
+      receivers: [ otlp ]
+      processors: [ batch, memory_limiter ]
+      exporters: [ logging, prometheus ]
+

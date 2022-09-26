@@ -1,0 +1,80 @@
+== !
+
+image::traces_title.jpeg[background, size=fill]
+
+[.notes]
+--
+Les traces
+
+Une trace c'est ce qui vous donne une image complète du traitement d'un requête
+
+Ici encore une fois Quarkus me facilite la vie, je n'ai qu'à ajouter l'extension qui va bien pour que mes applications exportent les traces directement au format OTLP
+--
+
+=== Le sidecar
+
+[%step]
+--
+[source,yaml,highlight='2..5|36..39']
+----
+include::sources/traces_0.yaml[]
+----
+--
+
+[.notes]
+--
+Le sidecar pour commencer
+--
+
+=== Le collecteur principal
+
+[%step]
+--
+[source,yaml,highlight='31..34|22..23']
+----
+include::sources/collector_traces_0.yaml[]
+----
+--
+
+[.notes]
+--
+Puis le maître
+On l'a vu venir gros comme une maison, je n'ai pas de backend de collect de trace.
+
+J'ai opté pour tempo (de Grafana labs) qui s'intègre très bien avec grafana.
+--
+
+=== !
+
+plantuml::diag/k8s_3.puml[format=svg]
+
+=== !
+
+image::traces.png[]
+
+[.notes]
+--
+Vous voulez voir quelque chose de merveilleux ?
+--
+
+=== !
+
+image::trace_details.png[]
+
+[.notes]
+--
+Bon alors j'ai du "anonymiser" mais bon...
+--
+
+[.lesson]
+=== !
+
+[.big]
+icon:heart[2x,role=red] Tout ce qui a déjà été fait n'est plus à faire.
+
+[.notes]
+--
+Tout ce qui a déjà été fait n'est plus à faire. Ce qui est encore mieux, c'est j'ai maintenant une cohérence parfaite.
+
+Avec en prime de la synchro si je fait des changements !!!
+--

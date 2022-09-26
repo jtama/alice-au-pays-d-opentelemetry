@@ -1,0 +1,35 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+      http:
+
+processors:
+  batch:
+  memory_limiter:
+    check_interval: 5s
+    limit_mib: 1500
+    spike_limit_mib: 512
+  k8sAttributes:
+
+exporters:
+  logging:
+    loglevel: debug
+  prometheus:
+    endpoint: prometheus:9090
+    resource_to_telemetry_conversion:
+      enabled: true
+  otlp:
+    endpoint: Encore un truc à déployer...
+
+service:
+  pipelines:
+    metrics:
+      receivers: [ prometheus ]
+      processors: [ k8sAttributes, batch, memory_limiter ]
+      exporters: [ logging, prometheus ]
+    traces:
+      receivers: [ otlp ]
+      processors: [ k8sAttributes, batch, memory_limiter ]
+      exporters: [ otlp ]
+

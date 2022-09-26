@@ -2,16 +2,14 @@
 
 [source,yaml,highlight='2|24|21..23|33..39|40..49']
 ----
-include::manifests/collector-deployment.yaml[]
+include::sources/collector-deployment.yaml[]
 ----
 
 [.notes]
 --
-Un jour on est venu me voir et on m'a dit:
-
-Alors j'ai foncé et direct je me suis dit "c'est ton moment fonce, opentelemetry t'ouvre ses bras !"
-
 Alors vous l'aurez deviner, à ce moment là je me rend compte qu'il y a BEAUCOUP trop de port ouvert, mais dans le doute...
+
+/!\ Dire où on en est au moment de la CONF!
 
 Mais bon ça y est j'ai un collector qui tourne dans mon cluster. Et comme je n'ai pas ouvert un manuel
 MAIS que je suis attentif en conf, j'ai compris que le collector est l'essence du processus ! Du coup d'une certaine façon c'est bon !

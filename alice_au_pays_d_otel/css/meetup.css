@@ -1,3 +1,54 @@
+:root {
+    --r-background-color: #e7e7e7;
+    --r-main-color: #012d3f;
+}
+
+body::after {
+    content: url("../images/bdxio.png");
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    transform: scale(.5);
+}
+
+section.lesson::before {
+    content: url("../images/lesson.jpg");
+}
+
+.lesson.slide-background.present {
+    background-color: #BB8181FF;
+}
+
+.transparency.slide-background.present {
+    opacity: 0.20;
+}
+
+.big {
+    font-size: 60px;
+    color: #012d3f;
+}
+
+.red {
+    color: #111012;
+}
+
+img {
+    border-radius: 10px;
+}
+
+.reveal .slide-number {
+    font-size: var(--r-main-font-size);
+}
+
+.reveal .progress {
+    color: #797af1;
+    height: 7px;
+}
+
+.slide-background.conclusion {
+    background-image: linear-gradient(to bottom, #111012, #1a2533, #003e50, #005958, #197248);
+}
+
 .vertical-align-middle > p {
     vertical-align: middle;
 }
@@ -7,7 +58,7 @@
     margin: 0;
 }
 
-.vertical-align-middle > p > span > img{
+.vertical-align-middle > p > span > img {
     vertical-align: middle;
     margin: 0;
 }
@@ -15,4 +66,20 @@
 .important-text > p {
     font-size: xxx-large;
     color: #012d3f;
+}
+
+.small {
+    font-size: 38px;
+}
+
+.column.has-text-right > div > div.hdlist.small > table {
+    margin-right: 0;
+}
+
+.column.has-text-left > div > div.hdlist.small > table {
+    margin-left: 0;
+}
+
+h1 {
+    display: none;
 }

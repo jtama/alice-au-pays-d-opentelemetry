@@ -1,0 +1,137 @@
+== Refactoring time !
+
+[%step]
+Utilisation de l'operator OpenTelemetry, pour me faciliter la vie.
+
+[.notes]
+--
+Un operateur c'est un outil K8S, qui permet de définir ses propres ressources et qui opère sur le cluster pour en gérer le cycle de vie.
+
+Ici l'opérateur permet de déployer les collectors selon tous les modes possible.
+
+
+Je me rend bien compte qu'en terme que je ne peux pas systématiquement intervenir sur la conf du collecteur, quand quelqu'un ajoute un module.
+--
+
+=== Sidecar !
+
+Je décide de conserver un collector maître, qui rassemblera toutes les collectes...
+
+[.notes]
+--
+La beauté de l'approchec c'est que tout nouveau pod java déployé sera automatiquement pris en compte grace à l'ajout du sidecar.
+
+Je conserve mon maître comme point d'entrée unique pour prométheus
+--
+
+=== !
+
+plantuml::diag/k8s_2.puml[format=svg]
+
+=== Le sidecar
+
+[source,yaml,highlight='10|19|22|29']
+----
+include::sources/metrics_2.yaml[]
+----
+
+[.notes]
+--
+On voie l'apparition du processor k8sattribute qui "allow automatic tagging of spans, metrics and logs with k8s metadata."
+--
+
+=== Le collecteur maître
+
+[source,yaml,highlight='2..5']
+----
+include::sources/collector_metrics_0.yaml[]
+----
+
+[.notes]
+--
+Alors c'est génial, ça fonctionne, les traces et métrics sont collectées par les sidecars, qui les envoie au collecteur en chef, mais, parce qu'il faut toujours un mais...les attributs de mes metrics restent désespérément vide, je fais le shadock et je touche à tout en esperant que ça fonctionne, mais rien...
+--
+
+=== !
+
+image::reading_notice.jpeg[reading user manual, size=fill]
+
+[.notes]
+--
+Alors même si je n'aime pas ça :
+--
+
+=== !
+
+[quote, La documentation de `k8sattributeprocessor`]
+--
+As a sidecar
+
+The processor [red]#does not support detecting containers from the same pods when running as a sidecar#. While this can be done, we think it is simpler to just use the kubernetes downward API to inject environment variables into the pods and directly use their values as tags.
+--
+
+[.columns.is-vcentered]
+[.lesson]
+=== !
+
+[.big]
+icon:skull[2x,role=red] RTFM !!!
+
+[.notes]
+--
+Je change mon fusil d'épaule et c'est partie pour l'utilisation du ressourcedetectionprocessor. Il peut tirer des valeurs de votre env, system, y compris des specificités GCP ou Amazon.
+
+Et la doc dit : OTEL_RESOURCE_ATTRIBUTES
+
+Du coup j'ai aussi activé le processor k8sAttributeProcessor sur le collecteur central pour récupérer le reste des metadata et annotation déja présent sur mes déploiement.
+--
+
+=== !
+
+[source, yaml,highlight='5|19..20']
+----
+include::sources/metrics_3.yaml[]
+----
+
+[.notes]
+--
+J'en profite pour variabilisé le nom du job. Jobname = attribut instance.
+
+J'active la détection par variable d'environnement.
+
+Ce que je fais par contre, c'est que j'active le k8sAttributeProcessor sur mon collecteur Maitre !
+--
+
+[.columns.transparency]
+=== !
+
+image::cube.png[background, size="auto 50%"]
+
+[.column.has-text-left]
+--
+Custom
+[horizontal.small]
+application:: Le nom de mon module
+instance:: Son instance dans le cluster
+
+OpenTelemetry
+[horizontal.small]
+service_instance_id:: L'id unique de l'instance
+service_name:: Le nom du module
+service_namespace:: Le nom du system auquel il appartient
+service_version:: La version
+--
+
+[.column.has-text-right]
+--
+Kubernetes
+[horizontal.small]
+k8s_deployment_name:: Le nom du déploiement
+k8s_namespace_name:: Le namespace
+k8s_node_name:: Le noeud sur lequel tourne l'instance
+k8s_pod_ip:: Son ip
+k8s_pod_name:: Le nom du pod
+k8s_pod_start_time:: La date et heure de démarrage de l'instance
+k8s_pod_uid:: Son id
+--
+
