@@ -1,0 +1,56 @@
+:root {
+    --r-background-color: #e7e7e7;
+    --r-main-color: #012d3f;
+}
+
+body::after {
+    content: url("../images/bdxio.png");
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    transform: scale(.5);
+}
+
+section.lesson::before {
+    content: url("../images/lesson.jpg");
+}
+
+.transparency.slide-background.present {
+    opacity: 0.20;
+}
+
+.big {
+    font-size: 60px;
+    color: #012d3f;
+}
+
+.red {
+    color: red;
+}
+
+img {
+    border-radius: 10px;
+}
+
+.vertical-align-middle > p {
+    vertical-align: middle;
+}
+
+.vertical-align-middle > p > span {
+    vertical-align: middle;
+    margin: 0;
+}
+
+.vertical-align-middle > p > span > img {
+    vertical-align: middle;
+    margin: 0;
+}
+
+.important-text > p {
+    font-size: xxx-large;
+    color: #012d3f;
+}
+
+.small {
+    font-size: small;
+}
