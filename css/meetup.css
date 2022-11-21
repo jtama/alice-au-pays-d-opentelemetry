@@ -58,3 +58,12 @@ img {
 .small {
     font-size: small;
 }
+
+.column.has-text-right > div > div.hdlist.small > table {
+    margin-right: 0;
+}
+
+.column.has-text-left > div > div.hdlist.small > table {
+    margin-left: 0;
+}
+
