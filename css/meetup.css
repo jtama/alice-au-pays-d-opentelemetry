@@ -29,11 +29,24 @@ section.lesson::before {
 }
 
 .red {
-    color: red;
+    color: #111012;
 }
 
 img {
     border-radius: 10px;
+}
+
+.reveal .slide-number {
+    font-size: var(--r-main-font-size);
+}
+
+.reveal .progress {
+    color: #797af1;
+    height: 7px;
+}
+
+.slide-background.conclusion {
+    background-image: linear-gradient(to bottom, #111012, #1a2533, #003e50, #005958, #197248);
 }
 
 .vertical-align-middle > p {
@@ -56,7 +69,7 @@ img {
 }
 
 .small {
-    font-size: small;
+    font-size: 38px;
 }
 
 .column.has-text-right > div > div.hdlist.small > table {

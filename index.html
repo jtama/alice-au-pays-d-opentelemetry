@@ -442,8 +442,10 @@ J&#8217;ai compris que j&#8217;avais devant moi l&#8217;alpha et l&#8217;omega, 
 <div class="imageblock fragment"><img src="images/angular-icon.svg" alt="angular icon" width="50"></div></div></div><div class="openblock column"><div class="content"><div class="imageblock fragment"><img src="images/elasticsearch.svg" alt="elasticsearch" width="50"></div>
 <div class="imageblock fragment"><img src="images/kafka.svg" alt="kafka" width="50"></div>
 <div class="imageblock fragment"><img src="images/postgresql.svg" alt="postgresql" width="50"></div>
-<div class="imageblock fragment"><img src="images/nifi.svg" alt="nifi" width="50"></div></div></div><aside class="notes"><div class="paragraph"><p>"He Jérôme, tu peux mettre en place l&#8217;observabilité sur mon projet ?"
+<div class="imageblock fragment"><img src="images/nifi.svg" alt="nifi" width="50"></div></div></div><aside class="notes"><div class="paragraph"><p>"He Jérôme, C&#8217;est le bazard sur le projet, on retrouve pas nos billes, quand y a des lenteurs on n&#8217;arrive pas à voir d&#8217;où ça vient"
 Chef de projet X</p></div>
+<div class="paragraph"><p>Et bien ça c&#8217;est l&#8217;observabilité. La capacité à regarder un système&#8230;&#8203;</p></div>
+<div class="paragraph"><p>Différents axes etc.</p></div>
 <div class="paragraph"><p>Alors j&#8217;ai foncé et direct je me suis dit "c&#8217;est ton moment fonce, opentelemetry t&#8217;ouvre ses bras !"</p></div>
 <div class="paragraph"><p>Bon dernier parti pris, je ne touche pas au code existant, éventuellement j&#8217;ajoute une lib ou je change de la conf, mais c&#8217;est tout.</p></div></aside></div></section><section><div class="slide-content"><div class="imageblock"><img src="images/Alice-disneyscreencaps.jpg" alt="follow the white rabit" width="950"></div>
 <aside class="notes"><div class="paragraph"><p>C&#8217;est partie, on choisi la pilule rouge : on reste au Pays des Merveilles et vous descendez avec moi (le lapin blanc) au fond du gouffre.</p></div></aside></div></section></section>
@@ -722,7 +724,7 @@ On l&#8217;a vu venir gros comme une maison, je n&#8217;ai pas de backend de col
 <aside class="notes"><div class="paragraph"><p>Bon alors j&#8217;ai du "anonymiser" mais bon&#8230;&#8203;</p></div></aside></div></section><section class="lesson"><div class="slide-content"><div class="paragraph big"><p><span class="icon red"><i class="fa fa-heart fa-2x"></i></span> Tout ce qui a déjà été fait n&#8217;est plus à faire.</p></div>
 <aside class="notes"><div class="paragraph"><p>Tout ce qui a déjà été fait n&#8217;est plus à faire. Ce qui est encore mieux, c&#8217;est j&#8217;ai maintenant une cohérence parfaite.</p></div>
 <div class="paragraph"><p>Avec en prime de la synchro si je fait des changements !!!</p></div></aside></div></section></section>
-<section><section data-background-image="images/crayons.gif" data-background-size="fill"><div class="slide-content"><aside class="notes"><div class="paragraph"><p>J&#8217;ai tout essayer pour réutiliser mon sidecar, mais je n&#8217;ai pas réussi.</p></div>
+<section><section data-background-image="images/logs.jpg" data-background-size="fill"><div class="slide-content"><aside class="notes"><div class="paragraph"><p>J&#8217;ai tout essayer pour réutiliser mon sidecar, mais je n&#8217;ai pas réussi.</p></div>
 <div class="paragraph"><p>Il existe énormément de receiver dédié au log, mais je partais de zéro, en terme d&#8217;outillage de mon cluster.</p></div>
 <div class="paragraph"><p>J&#8217;en suis donc rendu à être obligé de lire les fichiers de logs directement sur les filesystem des nœuds.</p></div>
 <div class="paragraph"><p>Et pour cela..</p></div></aside></div></section><section id="_le_daemonset"><h2>Le Daemonset</h2><div class="slide-content"><div class="admonitionblock warning"><table><tr><td class="icon"><i class="fa fa-warning" title="Warning"></i></td><td class="content"><div class="paragraph"><p>Attention, pour déployer un Daemonset utilisable, vous devez disposer de droits élévés sur le cluster</p></div></td></tr></table></div>
@@ -916,15 +918,19 @@ En effet d&#8217;après OTEL la sévérité est une propriété du record, pas u
 <div class="paragraph"><p>Dans mon cas il a juste fallu ajouter les trace et span id dans le logs.</p></div>
 <div class="paragraph"><p>C&#8217;est plutôt simple (en tout cas pour la partie applicative).</p></div>
 <div class="paragraph"><p>Pour les ajouter dans les métrics, bin là ça dépend beaucoup de la spec.</p></div></aside></div></section></section>
-<section><section id="_conclusion"><h2>Conclusion</h2></section><section><div class="slide-content"><aside class="notes"><div class="paragraph"><p>Je n&#8217;ai pas fini mon voyage au pays d&#8217;opentelemetry et je compte bien continuer à me familiariser avec ses paysages, mais il est temps pour nous de mettre fin à se cauchemard avant que la reine ne nous coupe la tête.</p></div>
+<section><section class="conclusion" data-background-image="images/conclusion.jpg" data-background-size="contain"><div class="slide-content"><aside class="notes"><div class="paragraph"><p>Je n&#8217;ai pas fini mon voyage au pays d&#8217;opentelemetry et je compte bien continuer à me familiariser avec ses paysages, mais il est temps pour nous de mettre fin à se cauchemard avant que la reine ne nous coupe la tête.</p></div>
+<div class="paragraph"><p>Les promesses tenues :</p></div>
 <div class="paragraph"><p>Pas de vendor locking, un nombre incroyable d&#8217;intégration, qui nous permettent d&#8217;envisager de changer de producteurs et de backend sereinement.</p></div>
-<div class="paragraph"><p>Personne ne songerait à se lancer dans l&#8217;utilisation de K8S sans avoir jamais y été introduit, OTLP c&#8217;est pareil en pire parce que la documentation est répartie un peu partout</p></div>
-<div class="paragraph"><p>Ma bible, mon inspiration, et j&#8217;en profite pour aider le projet à grandir encore plus.</p></div></aside>
-<div class="ulist"><ul><li class="fragment"><p>Les promesses tenues.</p></li><li class="fragment"><p>Comme tout ce que vous déployez, OTEL a un coût et doit être monitoré.</p></li><li class="fragment"><p><a href="https://github.com/open-telemetry/opentelemetry-collector-contrib" class="bare">https://github.com/open-telemetry/opentelemetry-collector-contrib</a></p></li><li class="fragment"><p>Attention ce n&#8217;est pas sec !</p></li><li class="fragment"><p>Veni, vedi, pas vici</p></li></ul></div></div></section><section class="transparency" data-background-image="images/alice01.otel.jpeg" data-background-size="fill"><div class="slide-content">
-<div class="paragraph important-text"><p><a href="https://jtama.github.io/alice-au-pays-d-opentelemetry" class="bare">https://jtama.github.io/alice-au-pays-d-opentelemetry</a></p></div>
-<div class="paragraph important-text"><p><a href="https://github.com/jtama/alice-au-pays-d-opentelemetry" class="bare">https://github.com/jtama/alice-au-pays-d-opentelemetry</a></p></div>
-<div class="paragraph important-text vertical-align-middle"><p><span class="image"><img src="images/logo_onepoint.jpeg" alt="logo onepoint" width="50"></span></p></div>
+<div class="paragraph"><p>Attention: Ce n&#8217;est pas sec
+Personne ne songerait à se lancer dans l&#8217;utilisation de K8S sans avoir jamais y été introduit, OTLP c&#8217;est pareil en pire parce que la documentation est répartie un peu partout</p></div>
+<div class="paragraph"><p>Ma bible, mon inspiration, le dépot github, ouvert à la contribution !</p></div>
+<div class="paragraph"><p>Veni, vedi, pas vici</p></div></aside></div></section><section class="transparency" data-background-image="images/alice01.otel.jpeg" data-background-size="fill"><div class="slide-content">
+<div class="paragraph"><p>Merci !</p></div>
+<div class="paragraph"><p><a href="https://github.com/open-telemetry/opentelemetry-collector-contrib" class="bare">https://github.com/open-telemetry/opentelemetry-collector-contrib</a></p></div>
+<div class="paragraph"><p><a href="https://jtama.github.io/alice-au-pays-d-opentelemetry" class="bare">https://jtama.github.io/alice-au-pays-d-opentelemetry</a></p></div>
+<div class="paragraph"><p><a href="https://github.com/jtama/alice-au-pays-d-opentelemetry" class="bare">https://github.com/jtama/alice-au-pays-d-opentelemetry</a></p></div>
 <div class="paragraph important-text vertical-align-middle"><p><span class="image"><img src="images/qr.png" alt="qr" width="200"></span></p></div>
+<div class="paragraph small"><small>Credits: animationscreencaps.com, opentelemetry.io</small></div>
 <aside class="notes"><div class="paragraph"><p>J&#8217;espère vous avoir éviter quelques pièges, ou en tout vous faciliter le chemine
 Si on a le temps des questions ?</p></div></aside></div></section></section></div></div><script src="reveal.js/dist/reveal.js"></script><script>Array.prototype.slice.call(document.querySelectorAll('.slides section')).forEach(function(slide) {
   if (slide.getAttribute('data-background-color')) return;
