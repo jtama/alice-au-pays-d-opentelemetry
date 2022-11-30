@@ -492,9 +492,7 @@ service:
       receivers: [prometheus]
       processors: [batch,memory_limiter]
       exporters: [logging, prometheus]</code></pre></div></div></div></div>
-<aside class="notes"><div class="paragraph"><p>Je relance mon collecteur et &#8230;&#8203;</p></div>
-<div class="paragraph"><p>Ah oui alors le receiver prometheus ne provient pas de la distribution <em>core</em>, il faut allez piocher dans le repo <em>contrib</em>. Il a donc fallu que je modifie mon déploiement pour que ça fonctionne&#8230;&#8203;</p></div>
-<div class="paragraph"><p><em>Pour que cela fonctionne j&#8217;ai juste ajouté la dépendance qui va bien à l&#8217;app quarkus.</em></p></div>
+<aside class="notes"><div class="paragraph"><p>Je relance mon collecteur mais il faut allez piocher dans le repo <em>contrib</em>. le <em>core</em> ne contient que le standard.</p></div>
 <div class="paragraph"><p>Exporter prometheus, comme on l&#8217;a dit, prometheus ne push pas, il faut donc permettre de rééxposer les metrics au format qui va bien.</p></div></aside></div></section><section><div class="slide-content"><div class="imageblock"><img src="images/k8s_0.svg" alt="Diagram"></div></div></section><section><div class="slide-content"><div class="imageblock"><img src="images/1951-lapinblanc-01.jpeg" alt="1951 lapinblanc 01"></div>
 <aside class="notes"><div class="paragraph"><p>Oui mais pour qui ?</p></div>
 <div class="paragraph"><p>Comme je l&#8217;ai dit, je ne lis pas les manuels,</p></div>
@@ -597,12 +595,12 @@ service:
       receivers: [ otlp ]
       processors: [ batch, memory_limiter ]
       exporters: [ logging, prometheus ]</code></pre></div></div>
-<aside class="notes"><div class="paragraph"><p>Alors c&#8217;est génial, ça fonctionne, les traces et métrics sont collectées par les sidecars, qui les envoie au collecteur en chef, mais, parce qu&#8217;il faut toujours un mais&#8230;&#8203;les attributs de mes metrics restent désespérément vide, je fais le shadock et je touche à tout en esperant que ça fonctionne, mais rien&#8230;&#8203;</p></div></aside></div></section><section><div class="slide-content"><div class="imageblock"><img src="images/reading_notice.jpeg" alt="reading user manual"></div>
+<aside class="notes"><div class="paragraph"><p>Alors c&#8217;est génial, ça fonctionne, les métrics sont collectées par les sidecars, qui les envoie au collecteur en chef, mais, parce qu&#8217;il faut toujours un mais&#8230;&#8203;les attributs de mes metrics restent désespérément vide, je fais le shadock et je touche à tout en esperant que ça fonctionne, mais rien&#8230;&#8203;</p></div></aside></div></section><section><div class="slide-content"><div class="imageblock"><img src="images/reading_notice.jpeg" alt="reading user manual"></div>
 <aside class="notes"><div class="paragraph"><p>Alors même si je n&#8217;aime pas ça :</p></div></aside></div></section><section><div class="slide-content"><div class="quoteblock"><blockquote><div class="paragraph"><p>As a sidecar</p></div>
 <div class="paragraph"><p>The processor <span class="red">does not support detecting containers from the same pods when running as a sidecar</span>. While this can be done, we think it is simpler to just use the kubernetes downward API to inject environment variables into the pods and directly use their values as tags.</p></div></blockquote><div class="attribution">&#8212; La documentation de `k8sattributeprocessor`</div></div></div></section><section class="columns is-vcentered lesson"><div class="slide-content"><div class="paragraph big"><p><span class="icon red"><i class="fa fa-skull fa-2x"></i></span> RTFM !!!</p></div>
 <aside class="notes"><div class="paragraph"><p>Je change mon fusil d&#8217;épaule et c&#8217;est partie pour l&#8217;utilisation du ressourcedetectionprocessor. Il peut tirer des valeurs de votre env, system, y compris des specificités GCP ou Amazon.</p></div>
 <div class="paragraph"><p>Et la doc dit : OTEL_RESOURCE_ATTRIBUTES</p></div>
-<div class="paragraph"><p>Du coup j&#8217;ai aussi activé le processor k8sAttributeProcessor sur le collecteur central pour récupérer le reste des metadata et annotation déja présent sur mes déploiement.</p></div></aside></div></section><section><div class="slide-content"><div class="listingblock"><div class="content"><pre class="highlightjs highlight"><code class="language-yaml hljs" data-noescape="true" data-line-numbers="5|19,20" data-lang="yaml">receivers:
+<div class="paragraph"><p>Du coup j&#8217;ai aussi activé le processor k8sAttributeProcessor sur le collecteur maitre pour récupérer le reste des metadata et annotation déja présent sur mes déploiement.</p></div></aside></div></section><section><div class="slide-content"><div class="listingblock"><div class="content"><pre class="highlightjs highlight"><code class="language-yaml hljs" data-noescape="true" data-line-numbers="5|19,20" data-lang="yaml">receivers:
   prometheus:
     config:
       scrape_configs:
@@ -634,8 +632,7 @@ service:
       processors: [ resourcedetection, batch, memory_limiter ]
       exporters: [ otlp ]</code></pre></div></div>
 <aside class="notes"><div class="paragraph"><p>J&#8217;en profite pour variabilisé le nom du job. Jobname = attribut instance.</p></div>
-<div class="paragraph"><p>J&#8217;active la détection par variable d&#8217;environnement.</p></div>
-<div class="paragraph"><p>Ce que je fais par contre, c&#8217;est que j&#8217;active le k8sAttributeProcessor sur mon collecteur Maitre !</p></div></aside></div></section><section class="columns transparency" data-background-image="images/cube.png" data-background-size="auto 50%"><div class="slide-content">
+<div class="paragraph"><p>J&#8217;active la détection par variable d&#8217;environnement.</p></div></aside></div></section><section class="columns transparency" data-background-image="images/cube.png" data-background-size="auto 50%"><div class="slide-content">
 <div class="openblock column has-text-left"><div class="content"><div class="paragraph"><p>Custom</p></div>
 <div class="hdlist small"><table><tr><td class="hdlist1">application</td><td class="hdlist2"><p>Le nom de mon module</p></td></tr><tr><td class="hdlist1">instance</td><td class="hdlist2"><p>Son instance dans le cluster</p></td></tr></table></div>
 <div class="paragraph"><p>OpenTelemetry</p></div>
@@ -930,7 +927,7 @@ Personne ne songerait à se lancer dans l&#8217;utilisation de K8S sans avoir ja
 <div class="paragraph"><p><a href="https://jtama.github.io/alice-au-pays-d-opentelemetry" class="bare">https://jtama.github.io/alice-au-pays-d-opentelemetry</a></p></div>
 <div class="paragraph"><p><a href="https://github.com/jtama/alice-au-pays-d-opentelemetry" class="bare">https://github.com/jtama/alice-au-pays-d-opentelemetry</a></p></div>
 <div class="paragraph important-text vertical-align-middle"><p><span class="image"><img src="images/qr.png" alt="qr" width="200"></span></p></div>
-<div class="paragraph small"><small>Credits: animationscreencaps.com, opentelemetry.io</small></div>
+<div class="paragraph medium"><p>Credits: animationscreencaps.com, opentelemetry.io</p></div>
 <aside class="notes"><div class="paragraph"><p>J&#8217;espère vous avoir éviter quelques pièges, ou en tout vous faciliter le chemine
 Si on a le temps des questions ?</p></div></aside></div></section></section></div></div><script src="reveal.js/dist/reveal.js"></script><script>Array.prototype.slice.call(document.querySelectorAll('.slides section')).forEach(function(slide) {
   if (slide.getAttribute('data-background-color')) return;
