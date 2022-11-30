@@ -49,7 +49,7 @@ include::sources/collector_metrics_0.yaml[]
 
 [.notes]
 --
-Alors c'est génial, ça fonctionne, les traces et métrics sont collectées par les sidecars, qui les envoie au collecteur en chef, mais, parce qu'il faut toujours un mais...les attributs de mes metrics restent désespérément vide, je fais le shadock et je touche à tout en esperant que ça fonctionne, mais rien...
+Alors c'est génial, ça fonctionne, les métrics sont collectées par les sidecars, qui les envoie au collecteur en chef, mais, parce qu'il faut toujours un mais...les attributs de mes metrics restent désespérément vide, je fais le shadock et je touche à tout en esperant que ça fonctionne, mais rien...
 --
 
 === !
@@ -83,7 +83,7 @@ Je change mon fusil d'épaule et c'est partie pour l'utilisation du ressourcedet
 
 Et la doc dit : OTEL_RESOURCE_ATTRIBUTES
 
-Du coup j'ai aussi activé le processor k8sAttributeProcessor sur le collecteur central pour récupérer le reste des metadata et annotation déja présent sur mes déploiement.
+Du coup j'ai aussi activé le processor k8sAttributeProcessor sur le collecteur maitre pour récupérer le reste des metadata et annotation déja présent sur mes déploiement.
 --
 
 === !
@@ -98,8 +98,6 @@ include::sources/metrics_3.yaml[]
 J'en profite pour variabilisé le nom du job. Jobname = attribut instance.
 
 J'active la détection par variable d'environnement.
-
-Ce que je fais par contre, c'est que j'active le k8sAttributeProcessor sur mon collecteur Maitre !
 --
 
 [.columns.transparency]

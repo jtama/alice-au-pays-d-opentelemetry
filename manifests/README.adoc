@@ -1,0 +1,11 @@
+= Prérequis
+
+Avoir l'opérateur opentelemetry installé : https://opentelemetry.io/docs/k8s-operator/
+
+Avoir un prometheus installé : https://prometheus-operator.dev/ (prometheus + grafana)
+
+Avoir un tempo : https://grafana.com/docs/tempo/latest/operations/deployment/
+
+Avoir un loki : https://grafana.com/docs/loki/latest/installation/helm/
+
+Et HOP \o/

@@ -68,7 +68,15 @@ img {
     color: #012d3f;
 }
 
+.red {
+    color: #b62c2c;
+}
+
 .small {
+    font-size: small;
+}
+
+.medium {
     font-size: 38px;
 }
 

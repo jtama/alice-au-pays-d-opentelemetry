@@ -20,11 +20,7 @@ include::sources/metrics_0.yaml[]
 --
 [.notes]
 --
-Je relance mon collecteur et ...
-
-Ah oui alors le receiver prometheus ne provient pas de la distribution _core_, il faut allez piocher dans le repo _contrib_. Il a donc fallu que je modifie mon déploiement pour que ça fonctionne...
-
-__Pour que cela fonctionne j'ai juste ajouté la dépendance qui va bien à l'app quarkus.__
+Je relance mon collecteur mais il faut allez piocher dans le repo _contrib_. le _core_ ne contient que le standard.
 
 Exporter prometheus, comme on l'a dit, prometheus ne push pas, il faut donc permettre de rééxposer les metrics au format qui va bien.
 --

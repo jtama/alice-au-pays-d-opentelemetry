@@ -1,0 +1,184 @@
+apiVersion: opentelemetry.io/v1alpha1
+kind: OpenTelemetryCollector
+metadata:
+  name: daemonset
+  labels:
+    app.kubernetes.io/part-of: observability
+    app.kubernetes.io/name: daemonset-collector
+spec:
+  mode: daemonset
+  # hostNetwork: false
+  image: {{ .Values.registry.docker }}/otel/opentelemetry-collector-contrib:0.63.0
+  serviceAccount: daemonset-collector
+  securityContext:
+    privileged: true
+  volumes:
+    - name: varlog
+      hostPath:
+        path: /var/log
+  volumeMounts:
+    - name: varlog
+      mountPath: /var/log
+  env:
+    - name: KUBE_NODE_NAME
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: spec.nodeName
+  config: |
+    receivers:
+      filelog:
+        include:
+          - /var/log/pods/<insert-your-namespace-here>*backend-*/*/*.log
+          - /var/log/pods/<insert-your-namespace-here>*elastic-data-es*/elasticsearch/*.log
+          - /var/log/pods/<insert-your-namespace-here>*frontend-*/frontend/*.log
+        exclude:
+          # Exclude logs from all containers named daemonset-collector
+          # Exclude logs from all containers named otc-container
+          - /var/log/pods/*daemonset-collector*/*.log
+          - /var/log/pods/*/otc-container/*.log
+        start_at: beginning
+        include_file_path: true
+        include_file_name: false
+        operators:
+          - type: router
+            id: get-format
+            routes:
+              - output: parser-crio
+                expr: 'body matches "^[^ Z]+ "'
+              - output: parser-containerd
+                expr: 'body matches "^[^ Z]+Z"'
+          # Parse CRI-O format
+          - type: regex_parser
+            id: parser-crio
+            regex: '^([^ Z]+) (stdout|stderr) ([^ ]*) ?(?P<log>.*)$'
+            output: extract_metadata_from_filepath
+            timestamp:
+              parse_from: attributes.time
+              layout_type: gotime
+              layout: '2006-01-02T15:04:05.000000000-07:00'
+          # Parse CRI-Containerd format
+          - type: regex_parser
+            id: parser-containerd
+            regex: '^([^ ^Z]+Z) (stdout|stderr) ([^ ]*) ?(?P<log>.*)$'
+            output: extract_metadata_from_filepath
+          # Extract metadata from file path
+          - type: regex_parser
+            id: extract_metadata_from_filepath
+            regex: '^.*\/(?P<k8s_namespace_name>[^_]+)_(?P<pod_name>[^_]+)_(?P<uuid>[a-f0-9\-]{36})\/(?P<service_name>[^\._]+)\/(\d+)\.log$'
+            parse_from: attributes["log.file.path"]
+          # Clean up log body
+          - type: move
+            from: attributes.log
+            to: body
+          - type: move
+            from: attributes.pod_name
+            to: resource.pod_name
+          # Recognize java modules and front modules
+          - type: router
+            routes:
+              - output: extract-java-log
+                expr: 'attributes.service_name matches "^backend-"'
+              - output: extract-nginx-log
+                expr: 'attributes.service_name matches "^frontend"'
+              - output: extract-elastic-log
+                expr: 'attributes.service_name matches "^elasticsearch"'
+          # Start java
+          - type: recombine
+            id: extract-java-log
+            combine_field: body
+            is_first_entry: body matches "^[\\d]"
+            source_identifier: attributes["log.file.path"]
+          - type: regex_parser
+            output: passthrough # Goto end
+            parse_from: body
+            regex: '^(\d\d:\d\d:\d\d+) (?P<severity>\w+)\w*'
+          # End java
+          # Start nginx
+          - type: regex_parser
+            id: extract-nginx-log
+            output: passthrough # Goto end
+            parse_from: body
+            regex: '\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3} - - \[\d{2}\/[a-zA-Z]{3}\/\d{4}:\d{2}:\d{2}:\d{2} [\+|\-]\d{4}\] \"(GET|POST|PUT|PATCH|DELETE|OPTION) .+ HTTP\/1\.1" (?P<statuscode>\d{3}) .*'
+            severity:
+              parse_from: 'attributes.statuscode'
+              mapping:
+                warn: 5xx
+                error: 4xx
+                info: 3xx
+                debug: 2xx
+          # End Nginx
+          # Start elastic
+          - type: router
+            id: extract-elastic-log
+            routes:
+              - output: extract-elastic-json-log
+                expr: 'body matches "^(\"|{)"'
+              - output: extract-elastic-flat-log
+                expr: 'body matches "^[A-Z]+:"'
+          - type: recombine
+            id: extract-elastic-json-log
+            combine_field: body
+            is_first_entry: body matches "^{"
+            source_identifier: attributes["log.file.path"]
+          - type: filter
+            expr: 'body matches "^[^\d\s]"'
+          - type: regex_parser
+            id: extract-elastic-json-severity
+            output: passthrough # Goto end
+            parse_from: body
+            regex: '"log.level": "(?P<severity>\w+)"'
+          - type: regex_parser
+            id: extract-elastic-flat-log
+            parse_from: body
+            regex: '^(?P<severity>\w*):.*'
+          # End elastic
+          - type: filter
+            id: passthrough
+            expr: 'body == null'
+    processors:
+      transform:
+        logs:
+          statements:
+            - replace_match(attributes["severity"], "WARNING", "WARN")
+            - replace_match(attributes["severity"], "DEPRECATION", "WARN")
+      attributes:
+        actions:
+          - key: log.file.path
+            action: delete
+          - key: statuscode
+            action: delete
+          - key: uuid
+            action: delete
+          - key: loki.attribute.labels
+            action: insert
+            value: severity
+      resource:
+        attributes:
+          - key: loki.resource.labels
+            action: insert
+            value: k8s_namespace_name,service_name
+      filter:
+        logs:
+          exclude:
+            match_type: regexp
+            bodies:
+              - ".*nginx_status.*"
+    exporters:
+      logging:
+        logLevel: debug
+      loki:
+        endpoint: http://observability-loki-distributed-distributor:3100/loki/api/v1/push
+        headers:
+          "X-Scope-OrgID": "acme"
+    service:
+      telemetry:
+        logs:
+          level: "DEBUG"
+          development: true
+          encoding: "console"
+      pipelines:
+        logs:
+          receivers: [filelog]
+          processors: [attributes, transform]
+          exporters: [loki]
