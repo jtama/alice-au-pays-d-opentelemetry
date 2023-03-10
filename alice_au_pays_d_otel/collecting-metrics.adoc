@@ -21,13 +21,20 @@ include::sources/metrics_0.yaml[]
 [.notes]
 --
 Je relance mon collecteur mais il faut allez piocher dans le repo _contrib_. le _core_ ne contient que le standard.
-
+logging : Il vaut mieux le connaitre ou cas ou ça ne passe pas comme on veut : *ça ne se passera pas comme vous voulez*
 Exporter prometheus, comme on l'a dit, prometheus ne push pas, il faut donc permettre de rééxposer les metrics au format qui va bien.
 --
 
 === !
 
 plantuml::diag/k8s_0.puml[format=svg]
+
+[.notes]
+--
+J'ai maintenant un collecteur qui va récupérer de la donnée !!! Je suis content !
+
+*Je ne suis pas content*
+--
 
 === !
 
@@ -45,10 +52,9 @@ otel ne fera rien pour moi sur ce point, puisque justement il est agnostique des
 
 Donc eh bin c'est parti je me déploie un prometheus, je le configure pour scrapper les données depuis mon collector, et j'en profite pour l'observer.
 
-Mise en abime.
+Mise en abyme.
 
-
-J'en profite pour déployer un grafana et rien du tout.
+J'en profite pour déployer un grafana, parce qu'avoir un prometheus, c'est cool, pouvoir regarder ce qu'il y a dedans c'est mieux !
 --
 
 === !
@@ -64,13 +70,15 @@ icon:skull[2x,role=red] OpenTelemetry N'EST PAS un backend de persistence.
 
 === !
 
-[.notes]
---
-Cool, on en ajoute un autre module ?
---
-
 --
 image::metrics.png[]
+--
+
+[.notes]
+--
+ooops beaucoup trop de mémoire ! Premier effet positif, on va pouvoir fine-tunner les déploiements...
+
+Cool, on en ajoute un autre module ?
 --
 
 === !
@@ -86,7 +94,11 @@ plantuml::diag/k8s_1_bis.puml[format=svg]
 
 [.notes]
 --
-Tout ce que j'ai montré jusqu'à présent c'est très bien, mais j'ai oublié les ressources en cours de route.
+Et ça marche, je peux le voir grace à l'exporter debug,
+Je vais donc voir dans grafana, Je suis incapable de voir qui produit quoi !
+
+Je ne sais pas qui va mourir et qui surconsomme de la mémoire
+
 
 Si on ne définit pas correctement ses ressources, on ne PEUT PAS savoir qui produit quoi....
 --
@@ -97,4 +109,13 @@ Si on ne définit pas correctement ses ressources, on ne PEUT PAS savoir qui pro
 [.big]
 icon:skull[2x,role=red] Les ressources c'est la vie.
 
+[.notes]
+--
+Ce n'est pas pour rien qu'OpenTelemetry propose un standard de définition des données..
 
+C'est comme le BigData, si je mets de la donnée quelque part sans savoir ce que je vais en faire, ça ne serre à  rien...
+
+Donc je sais maintenant qu'i lva falloir les définir avec soin.
+
+Et c'est de la que va venir la première partie de la correlation de mes signaux
+--

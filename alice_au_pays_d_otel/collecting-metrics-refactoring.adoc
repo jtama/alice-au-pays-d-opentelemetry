@@ -19,7 +19,7 @@ Je décide de conserver un collector maître, qui rassemblera toutes les collect
 
 [.notes]
 --
-La beauté de l'approchec c'est que tout nouveau pod java déployé sera automatiquement pris en compte grace à l'ajout du sidecar.
+La beauté de l'approche c'est que tout nouveau pod java déployé sera automatiquement pris en compte grace à l'ajout du sidecar.
 
 Je conserve mon maître comme point d'entrée unique pour prométheus
 --
@@ -38,6 +38,8 @@ include::sources/metrics_2.yaml[]
 [.notes]
 --
 On voie l'apparition du processor k8sattribute qui "allow automatic tagging of spans, metrics and logs with k8s metadata."
+
+OTLP = OpenTelemetry Protocol
 --
 
 === Le collecteur maître
@@ -70,6 +72,11 @@ As a sidecar
 The processor [red]#does not support detecting containers from the same pods when running as a sidecar#. While this can be done, we think it is simpler to just use the kubernetes downward API to inject environment variables into the pods and directly use their values as tags.
 --
 
+[.notes]
+--
+C'est même pas écrit en petit avec une étoile, non, non c'est gros PLAF en plein milieux !
+--
+
 [.columns.is-vcentered]
 [.lesson]
 === !
@@ -79,11 +86,13 @@ icon:skull[2x,role=red] RTFM !!!
 
 [.notes]
 --
+
+Jamais vous vous diriez je vais je me mettre à exploiter un clluster kube mais sans lire la doc... Donc je vais lire la doc.
 Je change mon fusil d'épaule et c'est partie pour l'utilisation du ressourcedetectionprocessor. Il peut tirer des valeurs de votre env, system, y compris des specificités GCP ou Amazon.
 
 Et la doc dit : OTEL_RESOURCE_ATTRIBUTES
 
-Du coup j'ai aussi activé le processor k8sAttributeProcessor sur le collecteur maitre pour récupérer le reste des metadata et annotation déja présent sur mes déploiement.
+Du coup j'ai aussi activé le processor k8sAttributeProcessor sur le collecteur maitre pour récupérer le reste des metadata et annotation déjà présent sur mes déploiements.
 --
 
 === !
@@ -97,7 +106,9 @@ include::sources/metrics_3.yaml[]
 --
 J'en profite pour variabilisé le nom du job. Jobname = attribut instance.
 
-J'active la détection par variable d'environnement.
+J'active la détection par variable d'environnement. Je fais tout le travail côté kube,  je ne vous lle met pas dans les slides mais je vous donnerais le lien vers un dépôt qui contient tout ce qu'il faut.
+
+Si vous faites du kube, regarder la downward API, c'est très pratique.
 --
 
 [.columns.transparency]
@@ -131,5 +142,10 @@ k8s_pod_ip:: Son ip
 k8s_pod_name:: Le nom du pod
 k8s_pod_start_time:: La date et heure de démarrage de l'instance
 k8s_pod_uid:: Son id
+--
+
+[.notes]
+--
+Je ne montre pas tout, mais j'ai fait la même choses pour le reste de la stack, pas uniquement pour nos devs.
 --
 

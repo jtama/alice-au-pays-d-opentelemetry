@@ -21,10 +21,9 @@ Merci d'être venus !
 
 Qui a déjà entendu parler d'opentelemetry ?
 Qui a déjà fait plus que ça ?
+Dernière question : Qui lit les manuels utilisateurs ?
 
 Cette présentation parle de mon expèrience de mise en place d'Opentelemtry, et ce n'est certainement pas la vérité absolue.
-
-
 
 Alors on va quand même rappeler rapidement ce qu'est OTEL
 --

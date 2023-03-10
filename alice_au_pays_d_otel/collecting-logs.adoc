@@ -9,7 +9,7 @@ J'ai tout essayer pour réutiliser mon sidecar, mais je n'ai pas réussi.
 
 Il existe énormément de receiver dédié au log, mais je partais de zéro, en terme d'outillage de mon cluster.
 
-J'en suis donc rendu à être obligé de lire les fichiers de logs directement sur les filesystem des nœuds.
+J'en suis donc rendu à être obligé de lire les fichiers de logs directement sur les filesystem des nœuds. Et parser les logs: *Et parser les logs c'est nul*
 
 Et pour cela..
 --
@@ -37,7 +37,8 @@ plantuml::diag/k8s_4.puml[format=svg]
 
 [.notes]
 --
-Je ne vous refait pas le coup, il faut déployer un backend de collecte de log...
+Je ne vous refais pas le coup, il faut déployer un backend de collecte de log...
+J'ai pris oki, qui a ses specificités.
 --
 
 === !
