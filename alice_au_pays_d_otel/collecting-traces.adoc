@@ -11,6 +11,7 @@ Une trace c'est ce qui vous donne une image complète du traitement d'une requê
 Ici encore une fois Quarkus me facilite la vie, je n'ai qu'à ajouter l'extension qui va bien pour que mes applications exportent les traces directement au format OTLP, je fais une conf pour dire d'exporter vers localhost
 --
 
+[.standard]
 === Le sidecar
 
 [%step]
@@ -27,6 +28,7 @@ Le sidecar pour commencer.
 On réutilise, les  processor, les exporter, etc... Unicité.
 --
 
+[.standard]
 === Le collecteur principal
 
 [%step]
@@ -45,6 +47,7 @@ On l'a vu venir gros comme une maison, je n'ai pas de backend de collect de trac
 J'ai opté pour tempo (de Grafana labs) qui s'intègre très bien avec grafana.
 --
 
+[.standard]
 === !
 
 plantuml::diag/k8s_3.puml[format=svg]
@@ -55,6 +58,7 @@ plantuml::diag/k8s_3.puml[format=svg]
 Alors ça commence à faire beaucoup pour une seule application, plus on a d'application, plus  lle coup de l'observabilité sera proportionnellement faible...
 --
 
+[.standard]
 === !
 
 image::traces.png[]
@@ -67,6 +71,7 @@ Bon on se dit qu'il va falloir faire quelque chose sur cette boucle d'appels...
 Vous voulez voir quelque chose de merveilleux ?
 --
 
+[.standard]
 === !
 
 image::trace_details.png[]

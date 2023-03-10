@@ -9,7 +9,8 @@ Metrics :
 J'avais la chance d'avoir sous la main des applications qui savent exporter des métriques au format prometheus
 --
 
-=== !
+[.standard]
+=== Première tentative
 
 [%step]
 --
@@ -25,6 +26,7 @@ logging : Il vaut mieux le connaitre ou cas ou ça ne passe pas comme on veut : 
 Exporter prometheus, comme on l'a dit, prometheus ne push pas, il faut donc permettre de rééxposer les metrics au format qui va bien.
 --
 
+[.standard]
 === !
 
 plantuml::diag/k8s_0.puml[format=svg]
@@ -36,6 +38,7 @@ J'ai maintenant un collecteur qui va récupérer de la donnée !!! Je suis conte
 *Je ne suis pas content*
 --
 
+[.standard]
 === !
 
 image::1951-lapinblanc-01.jpeg[]
@@ -57,6 +60,7 @@ Mise en abyme.
 J'en profite pour déployer un grafana, parce qu'avoir un prometheus, c'est cool, pouvoir regarder ce qu'il y a dedans c'est mieux !
 --
 
+[.standard]
 === !
 
 plantuml::diag/k8s_1.puml[format=svg]
@@ -67,7 +71,7 @@ plantuml::diag/k8s_1.puml[format=svg]
 [.big]
 icon:skull[2x,role=red] OpenTelemetry N'EST PAS un backend de persistence.
 
-
+[.standard]
 === !
 
 --
@@ -81,6 +85,7 @@ ooops beaucoup trop de mémoire ! Premier effet positif, on va pouvoir fine-tunn
 Cool, on en ajoute un autre module ?
 --
 
+[.standard]
 === !
 
 [source,yaml,highlight='10']
@@ -88,6 +93,7 @@ Cool, on en ajoute un autre module ?
 include::sources/metrics_1.yaml[]
 ----
 
+[.standard]
 === !
 
 plantuml::diag/k8s_1_bis.puml[format=svg]

@@ -1,3 +1,6 @@
 = Alice au pays d'OpenTelemetry
 
-Readable version available on https://jtama.github.io/alice-au-pays-d-opentelemetry/#/[Github Pages -> ici]
+Readable version available :
+
+https://jtama.github.io/alice-au-pays-d-opentelemetry/bdx.io/[BDX.IO]
+https://jtama.github.io/alice-au-pays-d-opentelemetry/devoxxFR/[DevoxxFR 2023]

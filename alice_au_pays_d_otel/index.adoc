@@ -7,7 +7,7 @@
 :revealjs_theme: white
 :revealjs_history: true
 :revealjs_pdfseparatefragments: false
-:revealjs_width: 1200
+:revealjs_width: 1300
 :title-slide-background-image: title.png
 :title-slide-background-size: fill
 :customcss: css/meetup.css
@@ -27,7 +27,6 @@ Cette présentation parle de mon expèrience de mise en place d'Opentelemtry, et
 
 Alors on va quand même rappeler rapidement ce qu'est OTEL
 --
-
 include::introduction.adoc[]
 include::context.adoc[]
 include::collecting-metrics.adoc[]

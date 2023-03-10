@@ -1,21 +1,30 @@
+@font-face {
+    font-family: Stick;
+    src: url("https://fonts.googleapis.com/css2?family=Stick");
+}
+
 :root {
     --r-background-color: #e7e7e7;
     --r-main-color: #012d3f;
+    --r-heading-color: #0DD5E0;
+    --r-heading-font: Stick;
 }
 
-body::after {
-    content: url("../images/bdxio.png");
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    transform: scale(.5);
+.controls-arrow {
+    color: var(--r-heading-color);
 }
 
 section.lesson::before {
     content: url("../images/lesson.jpg");
 }
 
+.standard.slide-background.present {
+    background-image: url("../images/background.png");
+    background-size: cover;
+}
+
 .lesson.slide-background.present {
+    background-image: none;
     background-color: #BB8181FF;
 }
 
@@ -41,12 +50,12 @@ img {
 }
 
 .reveal .progress {
-    color: #797af1;
+    color: var(--r-heading-color);
     height: 7px;
 }
 
 .slide-background.conclusion {
-    background-image: linear-gradient(to bottom, #111012, #1a2533, #003e50, #005958, #197248);
+    background-image: linear-gradient(to top, #010409, #1e3342, #25647a, #1a9bb1, #0dd5e0);
 }
 
 .vertical-align-middle > p {
@@ -90,4 +99,10 @@ img {
 
 h1 {
     display: none;
+}
+
+h2 {
+    font-family : Aldrich;
+    font-weight : 900;
+    color: #ffffff;
 }

@@ -8,8 +8,8 @@
 !includeurl ICONURL/opentelemetry/exporter.puml
 
 
-OTLP("OTLP", "OpenTelemetry", rectangle) {
-     COLLECTOR("CL", "Collector", rectangle) {
+OTLP("OTLP", "Collector", rectangle) {
+     COLLECTOR("CL", "Pipeline", rectangle) {
        RECEIVER("RECV", "Receivers")
        PROCESSOR("PROC", "Processors")
        RECV -> PROC

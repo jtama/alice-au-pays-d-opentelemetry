@@ -1,4 +1,4 @@
-[.columns.is-vcentered]
+[.standard.columns.is-vcentered]
 [%notitle]
 == Context
 
@@ -50,6 +50,7 @@ J'ai pas dit que ça serait facile, je sentais quand même le piège venir...
 Bon dernier parti pris, je ne touche pas au code existant, éventuellement j'ajoute une lib ou je change de la conf, mais c'est tout.
 --
 
+[.standard]
 === !
 
 image::Alice-disneyscreencaps.jpg[follow the white rabit, width=950]
@@ -59,7 +60,7 @@ image::Alice-disneyscreencaps.jpg[follow the white rabit, width=950]
 C'est partie, on choisi la pilule rouge : on reste au Pays des Merveilles et vous descendez avec moi (le lapin blanc) au fond du gouffre.
 --
 
-
+[.standard]
 == Le collecteur magique
 
 [%step]
@@ -80,6 +81,7 @@ Tout au long de la présentation je vous montrerai l'évolution de mes déploiem
 
 --
 
+[.standard]
 === !
 
 plantuml::diag/collector_0.puml[format=svg]
