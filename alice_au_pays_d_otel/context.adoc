@@ -90,7 +90,7 @@ plantuml::diag/collector_0.puml[format=svg]
 --
 Il y a plus à dire, mais l'idée principale est que je déploie un container OTEL versio 0.43 à la dure, càd en faisant tout moi même.
 
-Actuellement 0.73.0, ça bouge beaucoup, il faut suivre
+Actuellement 0.75.0, ça bouge beaucoup, il faut suivre
 
 ça y est j'ai un collector qui tourne dans mon cluster. Et comme je n'ai pas ouvert un manuel
 MAIS que je suis attentif en conf, j'ai compris que le collector est l'essence du processus !
