@@ -39,11 +39,13 @@ image::nifi.svg[width=50]
 "He Jérôme, C'est le bazard sur le projet, on retrouve pas nos billes, quand y a des lenteurs on n'arrive pas à voir d'où ça vient"
 Chef de projet X
 
-Et bien ça c'est l'observabilité. La capacité à regarder un système...
+Et bien ça c'est l'absence l'observabilité. La capacité à regarder un système...
 
 Différents axes etc.
 
-Alors j'ai foncé et direct je me suis dit "c'est ton moment fonce, opentelemetry t'ouvre ses bras !"
+C'était le moment rêver : "c'est ton moment fonce, opentelemetry et paf ça fait des chocapics !"
+
+J'ai pas dit que ça serait facile, je sentais quand même le piège venir...
 
 Bon dernier parti pris, je ne touche pas au code existant, éventuellement j'ajoute une lib ou je change de la conf, mais c'est tout.
 --
@@ -71,10 +73,11 @@ Pour rappel un collector c'est des pipelines.
 
 Et à un ou deux raccourcis près c'est tout ce qu'il y a à savoir.
 
-En préambule attention : Yaml, yaml et encore yaml, je vous épargnerai le yaml lié à K8S, mais vous pourrez trouver dans le dépot github des slides,
+En préambule attention : Préambule on développe pas dans Opentelemetry, on yaml..., je vous épargnerai le yaml lié à K8S, mais vous pourrez trouver dans le dépôt github des slides,
 un ensemble de manifests cohérent à déployer dans un cluster.
 
 Tout au long de la présentation je vous montrerai l'évolution de mes déploiements
+
 --
 
 === !
@@ -85,10 +88,14 @@ plantuml::diag/collector_0.puml[format=svg]
 --
 Il y a plus à dire, mais l'idée principale est que je déploie un container OTEL versio 0.43 à la dure, càd en faisant tout moi même.
 
-Actuellement 0.66.0
+Actuellement 0.75.0, ça bouge beaucoup, il faut suivre
 
 ça y est j'ai un collector qui tourne dans mon cluster. Et comme je n'ai pas ouvert un manuel
-MAIS que je suis attentif en conf, j'ai compris que le collector est l'essence du processus ! Du coup d'une certaine façon c'est bon !
+MAIS que je suis attentif en conf, j'ai compris que le collector est l'essence du processus !
+
+Content! ça m'a pris 5 minute ! Ca va rouler cette affaire !
+
+*ça va pas rouler cette affaire*
 
 Evidemment c'est bon rien du tout et c'est maintenant qu'on va pouvoir se concentrer un peu.
 --

@@ -19,13 +19,15 @@ image::opentelemetry-logo-nav.png[]
 
 [.notes]
 --
-
+Tentative de standardisation des signaux.
 C'est à dire une definition concrète du modèle d'un log, d'une trace, et des métrics
 En réalité des standards qui sont pour les _traces_ et les _metrics_ stable, pour les _logs_ en draft, hum.
 
 Une convention qui couvre ce qu'est fonctionnellement la ressource et dans quel cadre elle est déployée, en cours de complétion concernant le dernier point.
 
 Instrumentation : C++, Go, Java, Javascript, Php, python, Rust, Swift....
+
+La grande unification des forces
 --
 
 [%notitle.columns.is-vcentered.transparency]
@@ -58,7 +60,12 @@ icon:github[] @jtama image:avatar.png[width=100]
 
 [.notes]
 --
-Compagnon du devoir et je n'aime pas lire les manuels utilisateurs.
+
+J'aime beaucoup tout ce qui touche à l'industrialisation de nos process et l'amour porté à notre metier
+
+je n'aime pas lire les manuels utilisateurs, je branche et je regarde ce qui ce passe.
+
+La j'ai vu.
 
 Je travaille chez onepoint (on recrute passez nous voir sur le stand!)
 

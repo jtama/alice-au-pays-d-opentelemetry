@@ -121,9 +121,8 @@ receivers:
         parse_from: body
         regex: '^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} (?P<severity>\w+)'
       //  End kafka
-      - type: filter
+      - type: noop
         id: passthrough
-        expr: 'body == null'
 processors:
   transform:
     logs:

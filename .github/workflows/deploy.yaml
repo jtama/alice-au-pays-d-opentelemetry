@@ -50,3 +50,4 @@ jobs:
         with:
           folder: alice_au_pays_d_otel/build # The folder the action should deploy.
           branch: gh-pages
+          target-folder: DevfestLille

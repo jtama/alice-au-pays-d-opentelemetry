@@ -4,11 +4,11 @@
 }
 
 body::after {
-    content: url("../images/bdxio.png");
+    content: url("../images/devfest-lille.png");
     position: fixed;
     left: 0;
     bottom: 0;
-    transform: scale(.5);
+    /*transform: scale(.5);*/
 }
 
 section.lesson::before {

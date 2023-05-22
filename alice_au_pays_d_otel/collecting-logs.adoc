@@ -9,7 +9,7 @@ J'ai tout essayer pour réutiliser mon sidecar, mais je n'ai pas réussi.
 
 Il existe énormément de receiver dédié au log, mais je partais de zéro, en terme d'outillage de mon cluster.
 
-J'en suis donc rendu à être obligé de lire les fichiers de logs directement sur les filesystem des nœuds.
+J'en suis donc rendu à être obligé de lire les fichiers de logs directement sur les filesystem des nœuds. Et parser les logs: *Et parser les logs c'est nul*
 
 Et pour cela..
 --
@@ -51,9 +51,11 @@ image::cheshire-cat-alice-in-wonderland.gif[]
 
 [.notes]
 --
-Et puis de toute façon K8SAttribute se base sur l'ip entrante pour déterminer le pod qui lui parle. En l'occurence ça serait systématiquement celle du daemonset.
+2 choses :
 
-Eh bien parce que loki crée des streams de logs en fonction des attributs.
+- K8SAttribute se base sur l'ip entrante pour déterminer le pod qui lui parle. En l'occurence ça serait systématiquement celle du daemonset.
+
+- Eh bien parce que loki crée des streams de logs en fonction des attributs.
 Le nombre de stream doit être limité, et on ne peux donc pas par exemple utiliser le traceID, ou un pod UID, il vaut mieux laisser ces valeurs où elles sont et faire des requêtes dédiées.
 
 Aujourd'hui je ne suis pas totalement statisfait de la situation, mais je vis avec, à refacto plus tard!
@@ -63,18 +65,26 @@ Alors là on va rentrer dans le dur : Comment fait-on pour parser des logs... Il
 
 === !
 
-[source,yaml, highlight='3..7|11|12..18|57..61|70..81|124..126|128..132']
+[source,yaml, highlight='3..7|11|12..18|57..61|70..81|124..125|127..131']
 ----
 include::sources/filelogreceiver.yaml[]
 ----
 
 [.notes]
 --
-C'est là que ça c'est compliqué (pour moi). Non pas sur la compréhension mais faire du dev en yaml...
+J'ai serré les fesses :
+
+. Les devs sont habitués à avoir des rendus log bien fait, et on ne peux pas dégrader leur expèrience
+. I va falloir parser les logs
+. Faire du dev en yaml...
 
 La configuration que je vous montre est un version édulcorée de la réalité.
 
-Je vous conseille d'utiliser un conteneur de tests.
+Je vous conseille d'utiliser un conteneur de tests, on met au point et APRès on déploie.
+
+Je ne l'ai pas fait au début et je l'ai regretté.
+
+On peut même cloner le dépôt OTL et exécuter le code direct dans son ide en mode debug...
 
 On ne va pas tout regarder juste quelques trics :
 
@@ -86,14 +96,19 @@ recombine: permet de regrouper plusieurs ligne de log en un seul record (par exe
 
 regexparser : Il permet d'extraire des attributs en fonction de regexp (format golang) - Les ressources, les ressources, les ressources...Encore un operator regexp,
 On note ici la notion d'output, qui permet d'aller directement à l'opérator choisi.
-Attention ici une conf spécifique au fait de parser la severité.
+Attention ici une conf spécifique au fait de parser la severité (beaucoup plus de niveau dans OTEL, trace1, trace2, trace3).
 En effet d'après OTEL la sévérité est une propriété du record, pas un entrée dans ses attributs.
 
-Ici c'est ma porte de sortie... qui ne fait rien ;)
+Ici c'est ma porte de sortie... qui ne fait rien ;) Filtre : très bien par exemple pour filtrer les logs d'nginx quand le ping pour récupérer mes metrics...
 
 Le processor transform. Il permet d'agir sur les traces, les métrics et les logs, il permet d'effectuer un certain nombre d'opération, conditionnellement ou pas. Ici pour harmoniser, on remplace les valeurs WARNING par WARN.
 
+J'ai pas tout montrer, ça a pris beaucoup de temps, et je prends régulièrement des tickets (au secours j'ai plus mes logs)
 --
+
+=== !
+
+image::log_sample.png[]
 
 [.transparency]
 === Et la corrélation ?

@@ -6,9 +6,9 @@ image::traces_title.jpeg[background, size=fill]
 --
 Les traces
 
-Une trace c'est ce qui vous donne une image complète du traitement d'un requête
+Une trace c'est ce qui vous donne une image complète du traitement d'une requête, ce qui nous permet de retrouver ce qu'on a perdu quand on a décidé que les monolithes c'était caca...
 
-Ici encore une fois Quarkus me facilite la vie, je n'ai qu'à ajouter l'extension qui va bien pour que mes applications exportent les traces directement au format OTLP
+Ici encore une fois Quarkus me facilite la vie, je n'ai qu'à ajouter l'extension qui va bien pour que mes applications exportent les traces directement au format OTLP, je fais une conf pour dire d'exporter vers localhost
 --
 
 === Le sidecar
@@ -23,7 +23,8 @@ include::sources/traces_0.yaml[]
 
 [.notes]
 --
-Le sidecar pour commencer
+Le sidecar pour commencer.
+On réutilise, les  processor, les exporter, etc... Unicité.
 --
 
 === Le collecteur principal
@@ -48,12 +49,21 @@ J'ai opté pour tempo (de Grafana labs) qui s'intègre très bien avec grafana.
 
 plantuml::diag/k8s_3.puml[format=svg]
 
+
+[.notes]
+--
+Alors ça commence à faire beaucoup pour une seule application, plus on a d'application, plus  lle coup de l'observabilité sera proportionnellement faible...
+--
+
 === !
 
 image::traces.png[]
 
 [.notes]
 --
+Alors bon on voit un ping-pong qui nous plait pas bien, mais c'est justement pour ça qu'on met en place ce type d'outil..
+
+Bon on se dit qu'il va falloir faire quelque chose sur cette boucle d'appels...
 Vous voulez voir quelque chose de merveilleux ?
 --
 
@@ -74,7 +84,7 @@ icon:heart[2x,role=red] Tout ce qui a déjà été fait n'est plus à faire.
 
 [.notes]
 --
-Tout ce qui a déjà été fait n'est plus à faire. Ce qui est encore mieux, c'est j'ai maintenant une cohérence parfaite.
+Tout ce qui a déjà été fait n'est plus à faire. Ce qui est encore mieux, c'est j'ai maintenant une cohérence parfaite. On a gagné notre corrélation.
 
-Avec en prime de la synchro si je fait des changements !!!
+Avec en prime de la synchro si je fais des changements !!!
 --
