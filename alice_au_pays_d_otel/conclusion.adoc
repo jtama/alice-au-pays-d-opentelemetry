@@ -37,6 +37,9 @@ https://jtama.github.io/alice-au-pays-d-opentelemetry/DevfestLille
 
 https://github.com/jtama/alice-au-pays-d-opentelemetry
 
+[.important-text.vertical-align-middle]
+image::qr-code.png[width=200]
+
 [.medium]
 Credits: animationscreencaps.com, opentelemetry.io
 
